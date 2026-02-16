@@ -6,12 +6,17 @@ import pickle
 st.set_page_config(page_title="AQI Prediction", page_icon="🌫️", layout="wide")
 
 # ---------------- LOAD MODEL ----------------
-@st.cache_resource
 def load_model():
-    with open("Final_model_AirQualityPrediction.pkl", "rb") as f:
-        return pickle.load(f)
+    try:
+        with open("Final_model_AirQualityPrediction.pkl", "rb") as f:
+            model = pickle.load(f)
+        return model
+    except Exception as e:
+        st.error(f"Model load failed: {e}")
+        raise e
 
 model = load_model()
+
 
 # ---------------- SESSION STATE ----------------
 if "page" not in st.session_state:
